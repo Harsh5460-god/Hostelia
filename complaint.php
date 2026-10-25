@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <br>
 
-                <a href='index.html'>
+                <a href='index.php'>
                     BACK TO HOME
                 </a>
 

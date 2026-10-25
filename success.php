@@ -39,7 +39,7 @@
 
         <nav class="main-nav">
 
-            <a href="index.html">HOME</a>
+            <a href="index.php">HOME</a>
 
             <a href="rooms.html">ROOMS</a>
 
@@ -84,7 +84,7 @@
                     REGISTER ANOTHER STUDENT
                 </a>
 
-                <a href="index.html" class="success-link">
+                <a href="index.php" class="success-link">
                     ← BACK TO HOME
                 </a>
 

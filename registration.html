@@ -26,43 +26,20 @@
 
     <!-- ================= HEADER ================= -->
 
-    <header class="site-header">
+    
+<header class="site-header">
+    <a href="index.php" class="logo home-logo">
+        Hostelia
+    </a>
 
-        <div class="logo">
-            Hostelia
-        </div>
+    <p class="tagline">HOSTEL MANAGEMENT SYSTEM</p>
 
-        <p class="tagline">
-            HOSTEL MANAGEMENT SYSTEM
-        </p>
+    <div class="header-auth">
+        <a href="registration.html" class="auth-register">Register</a>
+        <a href="login.php" class="auth-login">Student Login</a>
+    </div>
+</header>
 
-        <nav class="main-nav">
-
-            <a href="index.html">HOME</a>
-
-            <a href="rooms.html">
-                ROOMS
-            </a>
-
-            <a href="registration.html" class="active">
-                REGISTRATION
-            </a>
-
-            <a href="complaints.html">
-                COMPLAINTS
-            </a>
-
-            <a href="notices.html">
-                NOTICES
-            </a>
-
-            <a href="about.html">
-                ABOUT
-            </a>
-
-        </nav>
-
-    </header>
 
 
     <!-- ================= MAIN CONTENT ================= -->
@@ -155,6 +132,42 @@
                                required>
 
                     </div>
+
+                    
+                    <!-- Password -->
+                    <div class="col-md-6">
+                        <label for="password"
+                               class="form-label text-secondary small fw-medium">
+                             Password
+                        </label>
+
+                        <input type="password"
+                                class="form-control"
+                                id="password"
+                                name="password"
+                                placeholder="Create a password"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required>
+                     </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6">
+                        <label for="confirm_password"
+                                class="form-label text-secondary small fw-medium">
+                             Confirm Password
+                       </label>
+
+                       <input type="password"
+                                class="form-control"
+                                id="confirm_password"
+                                name="confirm_password"
+                                placeholder="Re-enter your password"
+                                minlength="8"
+                                autocomplete="new-password"
+                                required>
+                    </div>
+
 
 
                     <!-- Phone -->
