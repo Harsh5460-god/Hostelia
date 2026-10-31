@@ -41,15 +41,15 @@
 
             <a href="index.php">HOME</a>
 
-            <a href="rooms.html">ROOMS</a>
+            <a href="rooms.php">ROOMS</a>
 
-            <a href="registration.html">REGISTRATION</a>
+            <a href="registration.php">REGISTRATION</a>
 
-            <a href="complaints.html">COMPLAINTS</a>
+            <a href="complaints.php">COMPLAINTS</a>
 
-            <a href="notices.html">NOTICES</a>
+            <a href="notices.php">NOTICES</a>
 
-            <a href="about.html">ABOUT</a>
+            <a href="about.php">ABOUT</a>
 
         </nav>
 
@@ -80,7 +80,7 @@
 
             <div class="success-buttons">
 
-                <a href="registration.html" class="hero-button">
+                <a href="registration.php" class="hero-button">
                     REGISTER ANOTHER STUDENT
                 </a>
 

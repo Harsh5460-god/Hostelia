@@ -83,8 +83,9 @@ $studentCode = htmlspecialchars($_SESSION["student_code"] ?? "", ENT_QUOTES, "UT
         <h4>Quick Links</h4>
         <a class="dashboard-link" href="notices.php">View Notices</a>
         <a class="dashboard-link" href="rooms.php">View Rooms</a>
-        <a class="dashboard-link" href="complaints.html">Complaints</a>
+        <a class="dashboard-link" href="complaints.php">Complaints</a>
         <a class="dashboard-link" href="logout.php">Logout</a>
+        <a href="booking_history.php">My Booking History</a>
     </section>
 </main>
 

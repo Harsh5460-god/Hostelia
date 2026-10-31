@@ -1,6 +1,36 @@
 <?php
-session_start();
-include "db.php";
+require_once "admin_check.php";
+require_once "db.php";
+// CSRF token for student deletion
+if (empty($_SESSION["csrf_token"])) {
+    $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
+}
+
+// Delete student
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_student"])) {
+
+    if (
+        !isset($_POST["csrf_token"]) ||
+        !hash_equals($_SESSION["csrf_token"], $_POST["csrf_token"])
+    ) {
+        die("Invalid request.");
+    }
+
+    $student_id = (int)$_POST["delete_student"];
+
+    $stmt = $conn->prepare("DELETE FROM students WHERE id = ?");
+    $stmt->bind_param("i", $student_id);
+
+    if ($stmt->execute()) {
+        $stmt->close();
+        header("Location: admin.php");
+        exit;
+    } else {
+        echo "Student could not be deleted. There may be linked records.";
+    }
+
+    $stmt->close();
+}
 
 $student_result = $conn->query(
     "SELECT * FROM students ORDER BY registration_date DESC"
@@ -11,7 +41,7 @@ $student_count = $conn->query(
 )->fetch_assoc()["total"];
 
 $complaint_count = $conn->query(
-    "SELECT COUNT(*) AS total FROM complaints"
+    "SELECT COUNT(*) AS total FROM complaints WHERE status != 'Resolved'"
 )->fetch_assoc()["total"];
 
 $pending_count = $conn->query(
@@ -264,11 +294,9 @@ $notice_result = $conn->query(
             <a href="index.php" class="logo">HOSTELIA</a>
 
             <nav class="main-nav">
-                <a href="index.php">Home</a>
-                <a href="rooms.php">Rooms</a>
-                <a href="complaints.php">Complaints</a>
-                <a href="notices.php">Notices</a>
+                
                 <a href="admin.php" class="active">Admin</a>
+                <a href="admin_logout.php">Logout</a>
             </nav>
 
         </div>
@@ -365,95 +393,106 @@ $notice_result = $conn->query(
             </div>
         </section>
 
-        <!-- Complaints management -->
-        <section class="admin-panel">
-            <h2>Hostel Complaints</h2>
-            <p class="panel-description">Review complaints and update their current status.</p>
+        
+<!-- Complaints management -->
+<section class="admin-panel">
+    <h2>Hostel Complaints</h2>
+    <p class="panel-description">Review complaints and update their current status.</p>
 
-            <div class="table-responsive">
-                <table class="table admin-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Student</th>
-                            <th>Room</th>
-                            <th>Type</th>
-                            <th>Priority</th>
-                            <th>Complaint</th>
-                            <th>Status</th>
-                            <th>Update</th>
-                        </tr>
-                    </thead>
+    <div class="table-responsive">
+        <table class="table admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Room</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Complaint</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
 
-                    <tbody>
-                    <?php if ($complaint_result && $complaint_result->num_rows > 0): ?>
-                        <?php while ($complaint = $complaint_result->fetch_assoc()): ?>
-                            <?php
-                                $status = $complaint["status"];
+            <tbody>
+            <?php
+            $has_complaints = false;
+            if ($complaint_result):
+                while ($complaint = $complaint_result->fetch_assoc()):
+                    if ($complaint["status"] === "Resolved") {
+                        continue;
+                    }
 
-                                if ($status === "Resolved") {
-                                    $status_class = "status-resolved";
-                                } elseif ($status === "In Progress") {
-                                    $status_class = "status-progress";
-                                } else {
-                                    $status_class = "status-pending";
-                                }
-                            ?>
-                            <tr>
-                                <td><?= (int)$complaint["id"] ?></td>
-                                <td><?= htmlspecialchars($complaint["student_name"]) ?></td>
-                                <td><?= htmlspecialchars($complaint["room_number"]) ?></td>
-                                <td><?= htmlspecialchars($complaint["complaint_type"]) ?></td>
-                                <td><?= htmlspecialchars($complaint["priority"]) ?></td>
-                                <td><?= htmlspecialchars($complaint["complaint_text"]) ?></td>
+                    $has_complaints = true;
+                    $status = $complaint["status"];
 
-                                <td>
-                                    <span class="status-badge <?= $status_class ?>">
-                                        <?= htmlspecialchars($status) ?>
-                                    </span>
-                                </td>
+                    if ($status === "In Progress") {
+                        $status_class = "status-progress";
+                    } else {
+                        $status_class = "status-pending";
+                    }
+            ?>
+                <tr>
+                    <td><?= (int)$complaint["id"] ?></td>
+                    <td><?= htmlspecialchars($complaint["student_name"]) ?></td>
+                    <td><?= htmlspecialchars($complaint["room_number"]) ?></td>
+                    <td><?= htmlspecialchars($complaint["complaint_type"]) ?></td>
+                    <td><?= htmlspecialchars($complaint["priority"]) ?></td>
+                    <td><?= htmlspecialchars($complaint["complaint_text"]) ?></td>
 
-                                <td>
-                                    <form action="update_complaint.php" method="POST">
-                                        <input
-                                            type="hidden"
-                                            name="complaint_id"
-                                            value="<?= (int)$complaint["id"] ?>"
-                                        >
+                    <td>
+                        <span class="status-badge <?= $status_class ?>">
+                            <?= htmlspecialchars($status) ?>
+                        </span>
+                    </td>
 
-                                        <select name="status" class="form-select" required>
-                                            <option value="Pending"
-                                                <?= $status === "Pending" ? "selected" : "" ?>>
-                                                Pending
-                                            </option>
+                    <td>
+                        <form action="update_complaint.php" method="POST">
+                            <input
+                                type="hidden"
+                                name="complaint_id"
+                                value="<?= (int)$complaint["id"] ?>"
+                            >
 
-                                            <option value="In Progress"
-                                                <?= $status === "In Progress" ? "selected" : "" ?>>
-                                                In Progress
-                                            </option>
+                            <select name="status" class="form-select" required>
+                                <option value="Pending"
+                                    <?= $status === "Pending" ? "selected" : "" ?>>
+                                    Pending
+                                </option>
 
-                                            <option value="Resolved"
-                                                <?= $status === "Resolved" ? "selected" : "" ?>>
-                                                Resolved
-                                            </option>
-                                        </select>
+                                <option value="In Progress"
+                                    <?= $status === "In Progress" ? "selected" : "" ?>>
+                                    In Progress
+                                </option>
 
-                                        <button type="submit" class="btn admin-btn mt-2">
-                                            Update Status
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="8" class="empty-row">No complaints have been submitted yet.</td>
-                        </tr>
-                    <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+                                <option value="Resolved">
+                                    Resolved
+                                </option>
+                            </select>
+
+                            <button type="submit" class="btn admin-btn mt-2">
+                                Update Status
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <?php
+                endwhile;
+            endif;
+
+            if (!$has_complaints):
+            ?>
+                <tr>
+                    <td colspan="8" class="empty-row">
+                        No active complaints available.
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</section>
+
 
         <!-- Add a notice -->
         <section class="admin-panel">

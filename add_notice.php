@@ -1,6 +1,6 @@
 <?php
-
-include "db.php";
+require_once "admin_check.php";
+require_once "db.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

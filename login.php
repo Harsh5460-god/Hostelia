@@ -1,9 +1,31 @@
 
+
 <?php
 session_start();
 include "db.php";
 
 $error = "";
+
+// Get redirect destination safely
+$redirect = $_GET["redirect"] ?? $_POST["redirect"] ?? "student_dashboard.php";
+
+// Only allow local PHP page redirects
+$allowedRedirects = [
+    "student_dashboard.php",
+    "registration.php",
+    "book_room.php"
+];
+
+$redirectParts = parse_url($redirect);
+
+if (
+    $redirectParts === false ||
+    isset($redirectParts["host"]) ||
+    isset($redirectParts["scheme"]) ||
+    !in_array($redirectParts["path"] ?? "", $allowedRedirects, true)
+) {
+    $redirect = "student_dashboard.php";
+}
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -23,8 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $stmt->bind_param("s", $email);
         $stmt->execute();
+
         $result = $stmt->get_result();
         $student = $result->fetch_assoc();
+
         $stmt->close();
 
         if ($student && password_verify($password, $student["password"])) {
@@ -38,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $conn->close();
 
-            header("Location: student_dashboard.php");
+            header("Location: " . $redirect);
             exit;
 
         } else {
@@ -49,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,7 +147,7 @@ $conn->close();
     <p class="tagline">HOSTEL MANAGEMENT SYSTEM</p>
 
     <div class="header-auth">
-        <a href="registration.html" class="auth-register">Register</a>
+        <a href="registration.php" class="auth-register">Register</a>
         <a href="login.php" class="auth-login">Student Login</a>
     </div>
 </header>
@@ -144,6 +169,8 @@ $conn->close();
         <?php endif; ?>
 
         <form method="POST" action="login.php">
+            <input type="hidden" name="redirect"
+       value="<?= htmlspecialchars($redirect, ENT_QUOTES, 'UTF-8') ?>">
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email Address</label>
@@ -174,7 +201,7 @@ $conn->close();
 
         <div class="login-links text-center mt-4">
             Don't have an account?
-            <a href="registration.html">Register here</a>
+            <a href="registration.php">Register here</a>
         </div>
 
     </div>

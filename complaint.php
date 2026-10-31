@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Our hostel management team will review your complaint.
                 </p>
 
-                <a href='complaints.html'>
+                <a href='complaints.php'>
                     SUBMIT ANOTHER COMPLAINT
                 </a>
 
@@ -197,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Something went wrong while submitting your complaint.
                 </p>
 
-                <a href='complaints.html'>
+                <a href='complaints.php'>
                     TRY AGAIN
                 </a>
 

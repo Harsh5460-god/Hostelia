@@ -144,30 +144,41 @@ $notice_result = $conn->query(
             <a href="index.php" class="logo">Hostelia</a>
 
             <div class="header-auth">
-                <?php if ($isLoggedIn): ?>
-                    <a href="student_dashboard.php"
-                       class="profile-link"
-                       title="<?= htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8') ?>">
-                        <span class="profile-avatar">
-                            <?= htmlspecialchars($initial, ENT_QUOTES, 'UTF-8') ?>
-                        </span>
-                        <span class="profile-name">
-                            <?= htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8') ?>
-                        </span>
-                    </a>
-                    <a href="logout.php" class="auth-login">Logout</a>
-                <?php else: ?>
-                    <a href="registration.html" class="auth-register">Register</a>
-                    <a href="login.php" class="auth-login">Student Login</a>
-                <?php endif; ?>
+    <?php if ($isLoggedIn): ?>
+
+        <details class="profile-menu">
+            <summary class="profile-trigger">
+                <span class="profile-avatar">
+                    <?= htmlspecialchars($initial, ENT_QUOTES, 'UTF-8') ?>
+                </span>
+                <span class="profile-name">
+                    <?= htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8') ?>
+                </span>
+                <span class="profile-arrow">▾</span>
+            </summary>
+
+            <div class="profile-dropdown">
+                <a href="student_dashboard.php">My Dashboard</a>
+                <a href="settings.php">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a href="logout.php" class="logout-option">Logout</a>
             </div>
+        </details>
+
+    <?php else: ?>
+
+        <a href="registration.php" class="auth-register">Register</a>
+        <a href="login.php" class="auth-login">Student Login</a>
+
+    <?php endif; ?>
+</div>
 
             <nav class="main-nav">
                 <a href="index.php">Home</a>
+                <a href="about.php">ABOUT</a>
                 <a href="rooms.php">Rooms</a>
-                <a href="complaints.html">Complaints</a>
-                <a href="notices.php" class="active">Notices</a>
-                <a href="admin.php">Admin</a>
+                <a href="complaints.php">Complaints</a>
+                <a href="notices.php" class="active">NOTICES</a>
             </nav>
 
         </div>

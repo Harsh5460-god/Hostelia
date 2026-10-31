@@ -70,7 +70,7 @@ $initial = strtoupper(substr($studentName, 0, 1));
 
     <?php else: ?>
 
-        <a href="registration.html" class="auth-register">Register</a>
+        <a href="registration.php" class="auth-register">Register</a>
         <a href="login.php" class="auth-login">Student Login</a>
 
     <?php endif; ?>
@@ -81,10 +81,11 @@ $initial = strtoupper(substr($studentName, 0, 1));
 <nav class="main-nav">
 
             <a href="index.php" class="active">HOME</a>
+            <a href="about.php">ABOUT</a>
             <a href="rooms.php">ROOMS</a>
-            <a href="complaints.html">COMPLAINTS</a>
-            <a href="notices.php">Notices</a>
-            <a href="about.html">ABOUT</a>
+            <a href="complaints.PHP">COMPLAINTS</a>
+            <a href="notices.php">NOTICES</a>
+            
 
         </nav>
 
@@ -113,7 +114,7 @@ $initial = strtoupper(substr($studentName, 0, 1));
                 management for students.
             </p>
 
-            <a href="registration.html" class="hero-button">
+            <a href="registration.php" class="hero-button">
                 REGISTER NOW
             </a>
 
@@ -165,7 +166,7 @@ $initial = strtoupper(substr($studentName, 0, 1));
                         important room information.
                     </p>
 
-                    <a href="rooms.html">
+                    <a href="rooms.php">
                         EXPLORE ROOMS →
                     </a>
 
@@ -187,7 +188,7 @@ $initial = strtoupper(substr($studentName, 0, 1));
                         through a simple online form.
                     </p>
 
-                    <a href="registration.html">
+                    <a href="registration.php">
                         REGISTER NOW →
                     </a>
 
@@ -221,7 +222,7 @@ $initial = strtoupper(substr($studentName, 0, 1));
                     activities in one place.
                 </p>
 
-                <a href="about.html" class="read-more">
+                <a href="about.php" class="read-more">
                     READ MORE →
                 </a>
 

@@ -1,3 +1,14 @@
+
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isLoggedIn = isset($_SESSION["student_id"]);
+$studentName = $_SESSION["student_name"] ?? "Student";
+$initial = strtoupper(substr($studentName, 0, 1));
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +46,7 @@
     <p class="tagline">HOSTEL MANAGEMENT SYSTEM</p>
 
     <div class="header-auth">
-        <a href="registration.html" class="auth-register">Register</a>
+        <a href="registration.php" class="auth-register">Register</a>
         <a href="login.php" class="auth-login">Student Login</a>
     </div>
 </header>
@@ -260,8 +271,8 @@
                                 Triple Sharing
                             </option>
 
-                            <option value="Deluxe Suite">
-                                Deluxe Suite
+                            <option value="Quad Sharing">
+                                Quad Sharing
                             </option>
 
                         </select>

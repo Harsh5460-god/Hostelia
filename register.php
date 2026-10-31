@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password !== $confirm_password) {
         exit(
             "Passwords do not match. " .
-            "<a href='registration.html'>Go back</a>"
+            "<a href='registration.php'>Go back</a>"
         );
     }
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (strlen($password) < 8) {
         exit(
             "Password must be at least 8 characters long. " .
-            "<a href='registration.html'>Go back</a>"
+            "<a href='registration.php'>Go back</a>"
         );
     }
 
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         exit(
             "Please enter a valid email address. " .
-            "<a href='registration.html'>Go back</a>"
+            "<a href='registration.php'>Go back</a>"
         );
     }
 
@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         This Student ID or another unique field
                         is already registered. Please check your details.
                     </p>
-                    <a href='registration.html'>TRY AGAIN</a>
+                    <a href='registration.php'>TRY AGAIN</a>
                 </div>
             </body>
             </html>
@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "
                 <h2>Registration Failed</h2>
                 <p>Something went wrong while submitting your registration.</p>
-                <a href='registration.html'>Try Again</a>
+                <a href='registration.php'>Try Again</a>
             ";
         }
 
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 } else {
-    header("Location: registration.html");
+    header("Location: registration.php");
     exit;
 }
 

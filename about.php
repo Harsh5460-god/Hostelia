@@ -1,3 +1,14 @@
+
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isLoggedIn = isset($_SESSION["student_id"]);
+$studentName = $_SESSION["student_name"] ?? "Student";
+$initial = strtoupper(substr($studentName, 0, 1));
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,16 +36,44 @@
         <div class="logo">Hostelia</div>
         <p class="tagline">HOSTEL MANAGEMENT SYSTEM</p>
         <div class="header-auth">
-    <a href="registration.html" class="auth-register">Register</a>
-    <a href="login.php" class="auth-login">Student Login</a>
+    <?php if ($isLoggedIn): ?>
+
+        <details class="profile-menu">
+            <summary class="profile-trigger">
+                <span class="profile-avatar">
+                    <?= htmlspecialchars($initial, ENT_QUOTES, 'UTF-8') ?>
+                </span>
+                <span class="profile-name">
+                    <?= htmlspecialchars($studentName, ENT_QUOTES, 'UTF-8') ?>
+                </span>
+                <span class="profile-arrow">▾</span>
+            </summary>
+
+            <div class="profile-dropdown">
+                <a href="student_dashboard.php">My Dashboard</a>
+                <a href="settings.php">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a href="logout.php" class="logout-option">Logout</a>
+            </div>
+        </details>
+
+    <?php else: ?>
+
+        <a href="registration.php" class="auth-register">Register</a>
+        <a href="login.php" class="auth-login">Student Login</a>
+
+    <?php endif; ?>
 </div>
 
         <nav class="main-nav">
-            <a href="index.php">HOME</a>
+
+            <a href="index.php" >HOME</a>
+            <a href="about.php" class="active">ABOUT</a>
             <a href="rooms.php">ROOMS</a>
-            <a href="complaints.html">COMPLAINTS</a>
+            <a href="complaints.PHP">COMPLAINTS</a>
             <a href="notices.php">NOTICES</a>
-            <a href="about.html" class="active">ABOUT</a>
+            
+
         </nav>
     </header>
 
