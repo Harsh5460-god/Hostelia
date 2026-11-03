@@ -1,0 +1,119 @@
+/* Settings page - uses the same look as the rest of Hostelia
+   (cream background, brown accents, Poppins + Playfair Display) */
+
+.settings-page {
+    max-width: 620px;
+    margin: 45px auto 70px;
+    padding: 0 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #40382f;
+}
+
+.settings-page h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 600;
+    margin: 6px 0 4px;
+}
+
+.settings-page .page-sub {
+    margin: 0 0 26px;
+    color: #8a7563;
+    font-size: 15px;
+}
+
+.settings-card {
+    background: #fffdf8;
+    border: 1px solid #e2d8c9;
+    border-radius: 12px;
+    padding: 26px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(64, 56, 47, 0.06);
+}
+
+.settings-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 600;
+    margin: 0 0 18px;
+}
+
+.settings-card label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6c5036;
+}
+
+.settings-card input {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #d8cfc2;
+    border-radius: 8px;
+    color: #40382f;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.settings-card input:focus {
+    outline: none;
+    border-color: #765337;
+    box-shadow: 0 0 0 3px rgba(118, 83, 55, 0.18);
+}
+
+.settings-card input:disabled {
+    background: #f4efe6;
+    color: #8a7563;
+    cursor: not-allowed;
+}
+
+.settings-btn {
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 8px;
+    background: #40382f;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.settings-btn:hover {
+    background: #5d4c39;
+}
+
+.notice {
+    margin: 0 0 16px;
+    padding: 11px 14px;
+    border: 1px solid;
+    border-radius: 9px;
+    font-size: 14px;
+}
+
+.notice.success {
+    background: #eef6ec;
+    border-color: #c6e0c0;
+    color: #2f6b2a;
+}
+
+.notice.error {
+    background: #fbeceb;
+    border-color: #e6c3be;
+    color: #a33d32;
+}
+
+.settings-link {
+    color: #6c5036;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.settings-link:hover {
+    text-decoration: underline;
+}

@@ -150,6 +150,22 @@ $roomDetails = [
             height: 220px;
         }
     }
+    .book-btn {
+    display: inline-block;
+    background-color: #493a2e;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.book-btn:hover {
+    background-color: #6b5544;
+    color: #ffffff;
+    text-decoration: none;
+}
 </style>
 
 </head>

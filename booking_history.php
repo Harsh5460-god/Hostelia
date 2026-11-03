@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once "db.php";
@@ -133,9 +134,39 @@ function safe($value) {
             color: #8b3636;
         }
 
+        .status-cancellation-requested {
+            background: #fff0cf;
+            color: #795b18;
+        }
+
+        .status-partial {
+            background: #dce8f5;
+            color: #315477;
+        }
+
+        .status-not-generated {
+            background: #eee7dc;
+            color: #817466;
+        }
+
         .rent-total {
             font-size: 20px;
             font-weight: 600;
+        }
+
+        .cancel-btn {
+            background: #9b4540;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: #7e3430;
+            color: white;
         }
 
         .empty-state {
@@ -156,6 +187,17 @@ function safe($value) {
         .back-btn:hover {
             color: white;
             background: #5d4c39;
+        }
+
+        @media (max-width: 576px) {
+            .history-card {
+                padding: 17px;
+            }
+
+            .detail-row {
+                font-size: 13px;
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -179,6 +221,12 @@ function safe($value) {
         View your room bookings and rent payment details.
     </p>
 
+    <?php if (isset($_GET["cancellation"]) && $_GET["cancellation"] === "requested"): ?>
+        <div class="alert alert-success">
+            Your cancellation request has been submitted successfully.
+        </div>
+    <?php endif; ?>
+
     <?php if (count($bookings) > 0): ?>
 
         <?php foreach ($bookings as $booking): ?>
@@ -197,7 +245,9 @@ function safe($value) {
                     str_replace(" ", "-", $booking["booking_status"])
                 );
 
-                $paymentClass = strtolower($booking["payment_status"]);
+                $paymentClass = strtolower(
+                    str_replace(" ", "-", $booking["payment_status"])
+                );
             ?>
 
             <div class="history-card">
@@ -264,6 +314,46 @@ function safe($value) {
                     <strong>
                         ₹<?= number_format(max(0, (float)$booking["pending_rent"]), 2) ?>
                     </strong>
+                </div>
+
+                <!-- Cancellation Action -->
+                <div class="detail-row">
+                    <span class="detail-label">Booking Action</span>
+
+                    <?php if ($booking["booking_status"] === "Confirmed"): ?>
+
+                        <form action="request_cancellation.php" method="POST"
+                              onsubmit="return confirm('Are you sure you want to request cancellation of this booking?');">
+
+                            <input type="hidden" name="booking_id"
+                                   value="<?= (int)$booking["id"] ?>">
+
+                            <button type="submit" class="cancel-btn">
+                                Request Cancellation
+                            </button>
+
+                        </form>
+
+                    <?php elseif ($booking["booking_status"] === "Cancellation Requested"): ?>
+
+                        <span class="status status-cancellation-requested">
+                            Cancellation Requested
+                        </span>
+
+                    <?php elseif ($booking["booking_status"] === "Cancelled"): ?>
+
+                        <span class="status status-cancelled">
+                            Booking Cancelled
+                        </span>
+
+                    <?php else: ?>
+
+                        <span class="text-secondary">
+                            Not Available
+                        </span>
+
+                    <?php endif; ?>
+
                 </div>
 
             </div>
